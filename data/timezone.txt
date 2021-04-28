@@ -1,0 +1,29 @@
+OlistState,State,UTC1,DaylightSavings,UTC-DST
+AC,Acre,UTC-5,No,None
+AL,Alagoas,UTC-3,No,None
+AM,Amapa,UTC-3,No,None
+AP,Amazonas (eastern),UTC-4,No,None
+BA,Bahia,UTC-3,No,None
+CE,Ceara,UTC-3,No,None
+ES,Espirito Santo,UTC-3,No,UTC-2
+??,Federal District,UTC-3,No,UTC-2
+GO,Goias,UTC-3,No,UTC-2
+??,Fernando de Noronha,UTC-2,No,None
+MA,Maranhao,UTC-3,No,None
+MG,Mato Grosso (most of),UTC-4,No,UTC-3
+MS,Mato Grosso do Sul,UTC-4,No,UTC-3
+MT?,Minas Gerais,UTC-3,No,UTC-2
+PA,Para,UTC-3,No,None
+PB,Paraiba,UTC-3,No,None
+??,Parana,UTC-3,No,UTC-2
+PE,Pernambuco,UTC-3,No,None
+??,,Piaui,UTC-3,No,None
+RJ,Rio de Janeiro,UTC-3,No,UTC-2
+NS,Rio Grande do Norte,UTC-3,No,None
+??,Rio Grande do Sul,UTC-3,No,UTC-2
+??,Rondonia,UTC-4,No,None
+??,Roraima,UTC-4,No,None
+??,Santa Catarina,UTC-3,No,UTC-2
+??,Sao Paulo,UTC-3,No,UTC-2
+??,Sergipe,UTC-3,No,None
+??,Tocantins,UTC-3,No,None
