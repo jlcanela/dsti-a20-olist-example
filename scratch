@@ -1,0 +1,57 @@
+spark.sql("select count(*) from customers where customer_city in ('macapa', 'vitoria do jari', 'laranjal do jari')").show
+val orders = spark.read.option("header", true).csv("olist_orders_dataset.csv")
+orders.printSchema
+customers.printSchema
+orders.createOrReplaceTempView("orders")
+spark.sql("select order_id, customer_id from orders").show(false)
+customers.printSchema
+spark.sql("select count(customer_id) from customers group by customer_id").show(false)
+spark.sql("select count(customer_id) from customers group by customer_id having count(customer_id) > 1").show(false)
+spark.sql("select customer_id, customer_unique_id from customers").show(false)
+spark.sql("select customer_id, customer_unique_id from customers where customer_id = customer_unique_id").show(false)
+spark.sql("select customer_id from customers where customer_unique_id = customer_id").show(false)
+spark.sql("select customer_unique_id, count(customer_id) from customers group by customer_unique_id having count(customer_id) > 1").show(false)
+spark.sql("select customer_unique_id, count(customer_id) from customers group by customer_unique_id having count(customer_id) > 1 order by count(customer_id) desc").show(false)
+spark.sql("select customer_unique_id, count(customer_id) as cnt from customers group by customer_unique_id having count(customer_id) > 1 order by cnt desc").show(false)
+spark.sql("select customer_unique_id, count(customer_id) as cnt from customers group by customer_unique_id having cnt > 1 order by cnt desc").show(false)
+spark.sql("select or.order_id, c.customer_id, c.city from orders as or left join customers as c on or.customer_id = c.customer_id ").show(false)
+spark.sql("select or.order_id, c.customer_id, c.customer_city from orders as or left join customers as c on or.customer_id = c.customer_id ").show(false)
+spark.sql("select or.order_id, c.customer_id, c.customer_city from orders as or left join customers as c on or.customer_id = c.customer_id where c.customer_city in ('santana', 'oiapoque','porto grande') ").show(false)
+
+spark.sql("select or.order_id, c.customer_id, c.city from orders as or left join customers as c on or.customer_id = c.customer_id ").show(false)
+spark.sql("select or.order_id, c.customer_id, c.customer_city from orders as or left join customers as c on or.customer_id = c.customer_id ").show(false)
+spark.sql("select or.order_id, c.customer_id, c.customer_city from orders as or left join customers as c on or.customer_id = c.customer_id where c.customer_city in ('santana', 'oiapoque','porto grande') ").show(false)
+val orders = spark.read.option("header", true).csv("olist_orders_dataset.csv")
+val customers = spark.read.option("header", true).csv("olist_customers_dataset.csv")
+orders.createOrReplaceTempView("orders")
+customers.createOrReplaceTempView("customers")
+spark.sql("select or.order_id, c.customer_id, c.customer_city from orders as or left join customers as c on or.customer_id = c.customer_id where c.customer_city in ('santana', 'oiapoque','porto grande') ").show(false)
+spark.sql("select count(*) from orders as or left join customers as c on or.customer_id = c.customer_id where c.customer_city in ('santana', 'oiapoque','porto grande') ").show(false)
+spark.sql("select count(*) from orders as or left join customers as c on or.customer_id = c.customer_id where c.customer_city in ('laranjal do jari', 'vitoria do jari','macapa') ").show(false)
+val order_items = spark.read.option("header", true).csv("olist_order_items_dataset.csv")
+order_items.printSchema
+orders.printSchema
+order_items.createOrReplaceTempView("order_items")
+spark.sql("select count(*) from order_items group by order_id, order_item_id ").show(false)
+spark.sql("select count(*) as cnt from order_items group by order_id, order_item_id having cnt > 1 ").show(false)
+customers.printSchema
+spark.sql("select count(*) as cnt, cu.customer_state from order_items left join orders on order_items.order_id = orders.order_id left join customers as cu on orders.customer_id = cu.customer_id group by cu.customer_state order by cnt desc").show(false)
+
+customers.printSchema
+spark.sql("select count(*) as cnt, cu.customer_state from order_items left join orders on order_items.order_id = orders.order_id left join customers as cu on orders.customer_id = cu.customer_id group by cu.customer_state order by cnt desc").show(false)
+spark.sql("select count(*) as cnt, cu.customer_state from order_items left join orders on order_items.order_id = orders.order_id left join customers as cu on orders.customer_id = cu.customer_id group by cu.customer_state order by cnt desc").show(false)
+spark.sql("select count(oi.order_item_id), or.order_id, cu.customer_state from order_items as oi left join orders as or on oi.order_id = or.order_id left join customers as cu on or.customer_id = cu.customer_id group by cu.customer_state").show(false)
+spark.sql("select count(oi.order_item_id), or.order_id from order_items as oi left join orders as or on oi.order_id = or.order_id group by or.order_id").show(false)
+val countByOrderId = spark.sql("select count(oi.order_item_id), or.order_id from order_items as oi left join orders as or on oi.order_id = or.order_id group by or.order_id")
+val countByOrderId = spark.sql("select count(oi.order_item_id) as order_item_count, or.order_id from order_items as oi left join orders as or on oi.order_id = or.order_id group by or.order_id")
+countByOrderId.createOrReplaceTempView("count_by_order_id")
+spark.sql("select cu.customer_state, avg(oic.order_item_count) as average_of_order_items, min(oic.order_item_count) as min_of_order_items, max(order_item_count) as max_of_order_items from count_by_order_id as oic left ")
+val countByOrderId = spark.sql("select count(oi.order_item_id), or.order_id, or.customer_id from order_items as oi left join orders as or on oi.order_id = or.order_id group by or.order_id")
+val countByOrderId = spark.sql("select count(oi.order_item_id), or.order_id, or.customer_id from order_items as oi left join orders as or on oi.order_id = or.order_id group by or.order_id, or.customer_id")
+countByOrderId.createOrReplaceTempView("count_by_order_id")
+spark.sql("select cu.customer_state, avg(oic.order_item_count) as average_of_order_items, min(oic.order_item_count) as min_of_order_items, max(order_item_count) as max_of_order_items from count_by_order_id as oic left join customers as cu on oic.customer_id = cu.customer_id group by cu.customer_state").show(false)
+val countByOrderId = spark.sql("select count(oi.order_item_id) as order_item_count, or.order_id, or.customer_id from order_items as oi left join orders as or on oi.order_id = or.order_id group by or.order_id, or.customer_id")
+countByOrderId.createOrReplaceTempView("count_by_order_id")
+spark.sql("select cu.customer_state, avg(oic.order_item_count) as average_of_order_items, min(oic.order_item_count) as min_of_order_items, max(order_item_count) as max_of_order_items from count_by_order_id as oic left join customers as cu on oic.customer_id = cu.customer_id group by cu.customer_state").show(false)
+spark.sql("select count(order_item_id), min(order_item_id), max(order_item_id), avg(order_item_id), customer_state from (select oi.order_item_id, or.order_id, customer_state from order_items as oi join orders as or on or.order_id = oi.order_id join customers as cu on or.customer_id = cu.customer_id) group by customer_state order by 1 desc ").show(false)
+
